@@ -6,7 +6,7 @@ class Todo extends ActiveRecord\Model { }
 
 ActiveRecord\Config::initialize(function($cfg) {
   //$cfg->set_connections(array('development' => 'mysql://root:@localhost/todos'));
-  $cfg->set_connections(array('development' => $_ENV['DATABASE_URL']));
+  $cfg->set_connections(array('development' => str_replace('postgres://', 'pgsql://', $_ENV['DATABASE_URL'])));
 });
 
 
