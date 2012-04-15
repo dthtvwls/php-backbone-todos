@@ -5,7 +5,6 @@ require 'Slim/Slim/Slim.php';
 class Todo extends ActiveRecord\Model { }
 
 ActiveRecord\Config::initialize(function($cfg) {
-  $cfg->set_model_directory('.');
   $cfg->set_connections(array('development' => 'mysql://root:@localhost/todos'));
 });
 
@@ -13,13 +12,26 @@ ActiveRecord\Config::initialize(function($cfg) {
 $app = new Slim();
 
 $app->get('/json', function() {
-  echo "Index";
+  echo json_encode(array_map(function($todo) { return $todo->attributes(); }, Todo::all()));
 });
-$app->get('/json/:id', function($id) {
-  echo "Hello, $id!";
-});
-$app->post('/json', function() {
 
+$app->post('/json', function() {
+  global $app;
+  $todo = new Todo(json_decode($app->request()->getBody(), true));
+  $todo->save();
+});
+
+$app->get('/json/:id', function($id) {
+  echo Todo::find($id)->to_json();
+});
+
+$app->put('/json/:id', function($id) {
+  global $app;
+  Todo::find($id)->update_all(array('set' => json_decode($app->request()->getBody(), true)));
+});
+
+$app->delete('/json/:id', function($id) {
+  Todo::find($id)->delete();
 });
 
 $app->run();

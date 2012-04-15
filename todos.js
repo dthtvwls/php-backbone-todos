@@ -40,10 +40,10 @@ $(function(){
   // Todo Collection
   // ---------------
 
-  // The collection of todos is backed by a remote server.
+  // The collection of todos is backed by a web service.
   var TodoList = Backbone.Collection.extend({
 
-    url: '/todos',
+    url: '/json',
 
     // Reference to this collection's model.
     model: Todo,
