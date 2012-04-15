@@ -34,4 +34,10 @@ $app->delete('/json/:id', function($id) {
   Todo::find($id)->delete();
 });
 
+$app->get('/', function() {
+  print_r($_ENV);
+  echo getenv('DATABASE_URL');
+  echo file_get_contents('index.html');
+});
+
 $app->run();
