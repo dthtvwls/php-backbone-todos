@@ -5,13 +5,14 @@ require 'Slim/Slim/Slim.php';
 class Todo extends ActiveRecord\Model { }
 
 ActiveRecord\Config::initialize(function($cfg) {
-  $cfg->set_connections(array('development' => 'mysql://root:@localhost/todos'));
+  //$cfg->set_connections(array('development' => 'mysql://root:@localhost/todos'));
+  $cfg->set_connections(array('development' => $_ENV['DATABASE_URL']));
 });
 
 
 $app = new Slim();
 
-$app->get('/todos', function() {
+$app->get('/json', function() {
   echo json_encode(array_map(function($todo) { return $todo->attributes(); }, Todo::all()));
 });
 
@@ -35,8 +36,6 @@ $app->delete('/json/:id', function($id) {
 });
 
 $app->get('/', function() {
-  print_r($_ENV);
-  echo getenv('DATABASE_URL');
   echo file_get_contents('index.html');
 });
 
