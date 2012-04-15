@@ -1,6 +1,6 @@
 [submodule "Slim"]
-	path = Slim
-	url = git@github.com:codeguy/Slim
+  path = Slim
+  url = git@github.com:codeguy/Slim.git
 [submodule "ActiveRecord"]
-	path = ActiveRecord
-	url = git@github.com:kla/php-activerecord
+  path = ActiveRecord
+  url = git@github.com:kla/php-activerecord.git

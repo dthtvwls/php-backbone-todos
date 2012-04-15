@@ -11,7 +11,7 @@ ActiveRecord\Config::initialize(function($cfg) {
 
 $app = new Slim();
 
-$app->get('/json', function() {
+$app->get('/todos', function() {
   echo json_encode(array_map(function($todo) { return $todo->attributes(); }, Todo::all()));
 });
 
