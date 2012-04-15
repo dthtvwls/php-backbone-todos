@@ -12,13 +12,17 @@ ActiveRecord\Config::initialize(function($cfg) {
 
 $app = new Slim();
 
+function reqBody() {
+  global $app;
+  return json_decode($app->request()->getBody(), true);
+}
+
 $app->get('/json', function() {
   echo json_encode(array_map(function($todo) { return $todo->attributes(); }, Todo::all()));
 });
 
 $app->post('/json', function() {
-  global $app;
-  $todo = new Todo(json_decode($app->request()->getBody(), true));
+  $todo = new Todo(reqBody());
   $todo->save();
 });
 
@@ -27,8 +31,7 @@ $app->get('/json/:id', function($id) {
 });
 
 $app->put('/json/:id', function($id) {
-  global $app;
-  Todo::find($id)->update_all(array('set' => json_decode($app->request()->getBody(), true)));
+  Todo::find($id)->update_attributes(reqBody());
 });
 
 $app->delete('/json/:id', function($id) {
